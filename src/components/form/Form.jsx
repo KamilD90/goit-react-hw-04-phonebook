@@ -1,44 +1,41 @@
-import { Component } from 'react';
 import css from './Form.module.css';
 import PropTypes from 'prop-types';
+import {useState} from 'react';
 
-class Form extends Component {
-  constructor() {
-    super();
+const Form = ({onSubmit}) => {
+ 
+  const [name, setName]= useState("");
+  const [number, setNumber]=useState("");
 
-    this.state = {
-      name: '',
-      number: '',
-    };
-  }
-
-  handleChange = event => {
+  const handleChange = event => {
     const { value, name } = event.target;
-    this.setState({ [name]: value });
+    if (name=== 'name') { 
+      setName(value);
+    } else if (name === 'number') {
+      setNumber(value);
+    }
   };
 
-  handleSubmit = event => {
+  const handleSubmit = event => {
     event.preventDefault();
-    const { name, number } = this.state;
-    this.props.onSubmit(name, number);
-    this.reset();
+   onSubmit(name, number);
+   reset();
   };
 
-  reset = () => {
-    this.setState({ name: '', number: '' });
+  const reset = () => {
+    setName('');
+    setNumber('');
   };
 
-  render() {
-    const { name, number } = this.state;
 
     return (
-      <form onSubmit={this.handleSubmit} className={css.form}>
+      <form onSubmit={handleSubmit} className={css.form}>
         <label htmlFor="name" className={css.label}>
           Imię:
           <input
             id="name"
             value={name}
-            onChange={this.handleChange}
+            onChange={handleChange}
             type="text"
             name="name"
             className={css.input}
@@ -53,7 +50,7 @@ class Form extends Component {
           <input
             id="number"
             value={number}
-            onChange={this.handleChange}
+            onChange={handleChange}
             type="tel"
             name="number"
             className={css.input}
@@ -68,7 +65,7 @@ class Form extends Component {
       </form>
     );
   }
-}
+
 
 export default Form;
 
